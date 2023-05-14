@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de tarefas{% endblock %}
+
+{% block conteudo %}
+
+<div class="offset-1 col-10 list-div">
+    <h1>Lista de Tarefas</h1>
+    <div class="container dashboard">
+        <div class="col-4 dashboard-box" id="dashboard-lastdays">
+            <h4>Finalizadas nos ultimos 30 dias</h4>
+            <span>{{task_done_recently}}</span>
+        </div>
+        <div class="col-4 dashboard-box" id="dashboard-done">
+            <h4>Finalizadas</h4>
+            <span>{{tasks_done}}</span>
+        </div>
+        <div class="col-4 dashboard-box" id="dashboard-doing">
+            <h4>A fazer</h4>
+            <span>{{tasks_doing}}</span>
+        </div>
+    </div>
+    <a href="newtask/">
+        <div class="col-2 add-div">
+            <i class="fas fa-plus"></i> Adicionar terefa
+        </div>
+    </a>
+    <div class="col-9 search-div">
+        <form method="GET" id="search-form">
+            <input type="text" id="search" name="search" placeholder="Digite o nome da Tarefa" value="{{request.GET.search}}">
+            <i class="fas fa-search" id="search-btn"></i>
+        </form>
+    </div>
+    <div class="col-12 filter-div">
+        <span>Filtrar por:</span>
+        <select name="filter" id="filter" class="form-control">
+            <option value="">Escolha uma opçao</option>
+            <option value="done">Tarefas concluidas</option>
+            <option value="doing">Tarefas a fazer</option>
+        </select>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <!-- <li {% if message.tags %}class="alert alert-{{message.tags}}"{% endif %}></li> -->
+        <div {% if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>
+            {{message}}
+        </div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <ul class="task-list">
+        {% for task in tasks %}
+        {% if task.done == 'doing' %}
+            <li class="task-item">
+        {% else %}
+            <li class="task-item done">  
+        {% endif %}
+            <span><a href="/task/{{task.id}}">{{task.title}}</a></span>
+            <a href="delete/{{task.id}}" class="deletebtn"><span><i class="fas fa-trash"></i></span></a>
+            <a href="edit/{{task.id}}"><span><i class="fas fa-edit"></i></span></a>
+            <a href="changestatus/{{task.id}}"><span><i class="fas fa-check"></i></span></a>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="paginador">
+        <span class="links-de-paginas">
+            {% if tasks.has_previous %}
+            <a href="?page={{tasks.previous_page_number}}"><i class="fas fa-arrow-left"></i></a>
+            {% endif %}
+            {% if tasks.paginator.num_pages %}
+                <span class="passa-page">
+                    {{tasks.number}} de {{tasks.paginator.num_pages}}
+                </span>
+            {% endif %}
+            {% if tasks.has_next %}
+            <a href="?page={{tasks.next_page_number}}"><i class="fas fa-arrow-right"></i></a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+{% endblock %}
+
+

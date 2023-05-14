@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Registrar no TO DO list{% endblock %}
+
+{% block conteudo %}
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card auth-card">
+            <div class="class-body">
+                <h4 class="card-title text-center">Registrar no TO DO list</h4>
+
+                <form method="post">{% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                </form>
+
+                <p class="change-form-p">Ja possui uma conta<a href="/accounts/login/">Clique aqui</a></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+

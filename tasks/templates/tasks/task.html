@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de tarefas{% endblock %}
+
+{% block conteudo %}
+
+<div class="offset-1 col-10 list-div">
+    <h1>{{task.title}}</h1>
+    <p>{{task.description}}</p>
+</div>
+
+{% endblock %}
+
+
